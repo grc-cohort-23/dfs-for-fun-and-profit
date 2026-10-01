@@ -179,8 +179,28 @@ public class Practice {
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
     if (start == null || end == null) throw new NullPointerException("start and end must be valid.");
     if (!reachable(start).contains(end)) return false;
-    
-    return false;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return hasStrictlyIncreasingPath(start, end, visited, Integer.MIN_VALUE);
+  }
+
+  private boolean hasStrictlyIncreasingPath(Vertex<Integer> current, Vertex<Integer> end, Set<Vertex<Integer>> visited, int previous) {
+    // dead end
+    if (current == null || visited.contains(current)) return false;
+    // not strictly increasing
+    if (current.data <= previous) return false;
+    // hit our target
+    if (current == end) return true;
+
+    boolean valid = false;
+
+    visited.add(current);
+    for (Vertex<Integer> v : current.neighbors) {
+      if (hasStrictlyIncreasingPath(v, end, visited, current.data)) {
+        valid = true;
+      }
+    }
+
+    return valid;
   }
 
 }
