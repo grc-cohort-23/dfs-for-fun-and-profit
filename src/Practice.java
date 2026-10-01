@@ -183,6 +183,14 @@ public class Practice {
     return hasStrictlyIncreasingPath(start, end, visited, Integer.MIN_VALUE);
   }
 
+  /**
+   * 
+   * @param current The current vertex.
+   * @param end Target vertex.
+   * @param visited Set containing all visited vertices so far.
+   * @param previous Value of previous vertex visited.
+   * @return true if path is strictly increasing and target is hit, false otherwise.
+   */
   private boolean hasStrictlyIncreasingPath(Vertex<Integer> current, Vertex<Integer> end, Set<Vertex<Integer>> visited, int previous) {
     // dead end
     if (current == null || visited.contains(current)) return false;
