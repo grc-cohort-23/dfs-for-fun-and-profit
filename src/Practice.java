@@ -47,7 +47,12 @@ public class Practice {
   }
 
   private <T> Set<Vertex<T>> reachable(Vertex<T> vertex, Set<Vertex<T>> visited) {
-    return null;
+    if (vertex == null || visited.contains(vertex)) return visited;
+    visited.add(vertex);
+    for (Vertex<T> neighbor: vertex.neighbors) {
+      visited = reachable(neighbor, visited);
+    }
+    return visited;
   }
 
   /**
