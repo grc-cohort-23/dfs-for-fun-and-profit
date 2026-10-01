@@ -145,13 +145,13 @@ public class Practice {
   private boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
     if (vertex == null || visited.contains(vertex)) return true;
     visited.add(vertex);
-    boolean isOdd = vertex.data % 2 != 0;
+    if (vertex.data % 2 == 0) return false;
     for (Vertex<Integer> v : vertex.neighbors) {
       if (!allOdd(v, visited)) {
         return false;
       }
     }
-    return isOdd;
+    return true;
   }
 
   /**
