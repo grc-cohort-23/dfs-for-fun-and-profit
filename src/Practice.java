@@ -184,6 +184,7 @@ public class Practice {
   }
 
   /**
+   * Helper method for hasStrictlyIncreasingPath().
    * 
    * @param current The current vertex.
    * @param end Target vertex.
@@ -199,16 +200,14 @@ public class Practice {
     // hit our target
     if (current == end) return true;
 
-    boolean valid = false;
-
     visited.add(current);
     for (Vertex<Integer> v : current.neighbors) {
       if (hasStrictlyIncreasingPath(v, end, visited, current.data)) {
-        valid = true;
+        return true;
       }
     }
 
-    return valid;
+    return false;
   }
 
 }
