@@ -106,6 +106,7 @@ public class Practice {
   }
 
   /**
+   * Helper method to leaves().
    * 
    * @param vertex The current vertex.
    * @param visited The Set containing all visited vertices.
@@ -143,6 +144,7 @@ public class Practice {
   }
 
   /**
+   * Helper method to allOdd().
    * 
    * @param vertex The current vertex.
    * @param visited A Set containing all visited vertices so far.
