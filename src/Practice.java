@@ -28,7 +28,7 @@ public class Practice {
   * Helper method to printVertexVals().
   * Does everything stated in the comments above the public method.
   * 
-  * @param vertex The starting vertex for the traversal
+  * @param vertex The current vertex.
   * @param visited The Set keeping track of vertices that have already been traversed.
   */
   private <T> void printVertexVals(Vertex<T> vertex, Set<Vertex<T>> visited) {
@@ -57,7 +57,7 @@ public class Practice {
   /**
    * Helper method to reachable().
    * 
-   * @param vertex The starting vertex.
+   * @param vertex The current vertex.
    * @param visited The Set keeping tracking of all traversed vertices.
    * @return A set containing all reachable vertices.
    */
@@ -105,6 +105,12 @@ public class Practice {
     return leaves(vertex, visited);
   }
 
+  /**
+   * 
+   * @param vertex The current vertex.
+   * @param visited The Set containing all visited vertices.
+   * @return A Set containing reachable leaf vertices, or an empty Set if the vertex has been visited.
+   */
   private <T> Set<Vertex<T>> leaves(Vertex<T> vertex, Set<Vertex<T>> visited) {
     Set<Vertex<T>> output = new HashSet<>();
     if (visited.contains(vertex)) return output;
@@ -117,6 +123,7 @@ public class Practice {
         output.addAll(leaves(v, visited));
       }
     }
+
     return output;
   }
 
