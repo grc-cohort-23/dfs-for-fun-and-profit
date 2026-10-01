@@ -142,6 +142,12 @@ public class Practice {
     return allOdd(vertex, visited);
   }
 
+  /**
+   * 
+   * @param vertex The current vertex.
+   * @param visited A Set containing all visited vertices so far.
+   * @return true if all vertices hold odd values, false otherwise.
+   */
   private boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
     if (vertex == null || visited.contains(vertex)) return true;
     visited.add(vertex);
