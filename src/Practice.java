@@ -23,6 +23,14 @@ public class Practice {
     printVertexVals(vertex, visited);
   }
 
+
+  /**
+  * Helper method to printVertexVals().
+  * Does everything stated in the comments above the public method.
+  * 
+  * @param vertex The starting vertex for the traversal
+  * @param visited The Set keeping track of vertices that have already been traversed.
+  */
   private <T> void printVertexVals(Vertex<T> vertex, Set<Vertex<T>> visited) {
     if (vertex == null || visited.contains(vertex)) return;
     visited.add(vertex);
@@ -46,6 +54,13 @@ public class Practice {
     return reachable(vertex, visited);
   }
 
+  /**
+   * Helper method to reachable().
+   * 
+   * @param vertex The starting vertex.
+   * @param visited The Set keeping tracking of all traversed vertices.
+   * @return A set containing all reachable vertices.
+   */
   private <T> Set<Vertex<T>> reachable(Vertex<T> vertex, Set<Vertex<T>> visited) {
     if (vertex == null || visited.contains(vertex)) return visited;
     visited.add(vertex);
