@@ -117,6 +117,16 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    if (vertex == null) return true;
+    return allOdd(vertex, new HashSet<>());
+  }
+
+  private boolean allOdd(Vertex<Integer> current, Set<Vertex<Integer>> visited) {
+    if (!visited.add(current)) return true; // if the current vertex has already been visited -> return true
+    if (current.data % 2 == 0) return false; // otherwise false
+    for (Vertex<Integer> neighbor : current.neighbors) { 
+      if (!allOdd(neighbor, visited)) return false; // if any neighbor is not odd -> return false
+    }
     return true;
   }
 
@@ -135,6 +145,14 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
-    return false;
+    if (start == null || end == null) throw new NullPointerException();
+
+    for (Vertex<Integer> neighbor : start.neighbors) {
+      if (neighbor.data > start.data) { // check if the neighbor's value is  greater than the current vertex's value
+        if (neighbor == end || hasStrictlyIncreasingPath(neighbor, end)) { // check if the neighbor is the target or if a path exists from neighbor
+        }
+      }
+    }
+    return false; 
   }
 }
