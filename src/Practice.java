@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,6 +19,16 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    if (vertex == null) return;
+    printVertexVals(vertex, new HashSet<>());
+  }
+
+  private <T> void printVertexVals(Vertex<T> current, Set<Vertex<T>> visited) { 
+    if (!visited.add(current)) return;
+    System.out.println(current.data);
+    for (Vertex<T> neighbor : current.neighbors) {
+      printVertexVals(neighbor, visited);
+    }
   }
 
   /**
@@ -30,8 +41,20 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> visted = new HashSet<>();
+    if (vertex == null) return visted; // Return an empty set if the vertex is null
+    reachable(vertex, visted);  // Start the recursive traversal
+    return visted; // Return the set of reachable vertices
   }
+
+  private <T> void reachable(Vertex<T> current, Set<Vertex<T>> visited) {
+    if (!visited.add(current)) return; // If the current vertex has already been visited -> return 
+    for (Vertex<T> neighbor : current.neighbors) { 
+      reachable(neighbor, visited);
+    }
+  }
+
+
 
   /**
    * Returns the maximum value among all vertices reachable from the given starting vertex,
@@ -43,7 +66,17 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    if (vertex == null) return Integer.MIN_VALUE;
+    return max(vertex, new HashSet<>());
+  }
+
+  private int max(Vertex<Integer> current, Set<Vertex<Integer>> visited) {
+    if (!visited.add(current)) return Integer.MIN_VALUE; // If the current vertex has already been visited -> return Integer.MIN_VALUE
+    int maxVal = current.data; //  maxVal with the current vertex's value
+    for (Vertex<Integer> neighbor : current.neighbors) { 
+      maxVal = Math.max(maxVal, max(neighbor, visited)); // update maxVal with the maximum value found in the neighbors
+    }
+    return maxVal; // return the maximum value found
   }
 
   /**
@@ -58,9 +91,20 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> leaves = new HashSet<>();
+    if (vertex == null) return leaves;
+    leaves(vertex, leaves); //start of recursion
+    return leaves; 
   }
 
+  private <T> void leaves(Vertex<T> current, Set<Vertex<T>> leaves) {
+    if (current.neighbors.isEmpty()) { // checks if the current vertex has no neighbors
+      leaves.add(current); // its a leaf -> add it to the leaves set
+    }
+    for (Vertex<T> neighbor : current.neighbors) { // call leaves recursively for each neighbor of the current vertex
+      leaves(neighbor, leaves); // continue the traversal to find leaves in the neighbors
+    }
+  }
 
   /**
    * Returns whether all reachable vertices (including the starting vertex) hold
@@ -73,6 +117,16 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    if (vertex == null) return true;
+    return allOdd(vertex, new HashSet<>());
+  }
+
+  private boolean allOdd(Vertex<Integer> current, Set<Vertex<Integer>> visited) {
+    if (!visited.add(current)) return true; // if the current vertex has already been visited -> return true
+    if (current.data % 2 == 0) return false; // otherwise false
+    for (Vertex<Integer> neighbor : current.neighbors) { 
+      if (!allOdd(neighbor, visited)) return false; // if any neighbor is not odd -> return false
+    }
     return true;
   }
 
@@ -91,6 +145,14 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
-    return false;
+    if (start == null || end == null) throw new NullPointerException();
+
+    for (Vertex<Integer> neighbor : start.neighbors) {
+      if (neighbor.data > start.data) { // check if the neighbor's value is  greater than the current vertex's value
+        if (neighbor == end || hasStrictlyIncreasingPath(neighbor, end)) { // check if the neighbor is the target or if a path exists from neighbor
+        }
+      }
+    }
+    return false; 
   }
 }
