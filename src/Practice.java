@@ -23,7 +23,7 @@ public class Practice {
     printVertexVals(vertex, new HashSet<>());
   }
 
-  private <T> void printVertexVals(Vertex<T> current, Set<Vertex<T>> visited) {
+  private <T> void printVertexVals(Vertex<T> current, Set<Vertex<T>> visited) { 
     if (!visited.add(current)) return;
     System.out.println(current.data);
     for (Vertex<T> neighbor : current.neighbors) {
@@ -41,8 +41,20 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> visted = new HashSet<>();
+    if (vertex == null) return visted; // Return an empty set if the vertex is null
+    reachable(vertex, visted);  // Start the recursive traversal
+    return visted; // Return the set of reachable vertices
   }
+
+  private <T> void reachable(Vertex<T> current, Set<Vertex<T>> visited) {
+    if (!visited.add(current)) return; // If the current vertex has already been visited -> return 
+    for (Vertex<T> neighbor : current.neighbors) { 
+      reachable(neighbor, visited);
+    }
+  }
+
+
 
   /**
    * Returns the maximum value among all vertices reachable from the given starting vertex,
