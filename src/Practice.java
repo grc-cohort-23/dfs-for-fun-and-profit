@@ -1,5 +1,4 @@
-import java.util.Set;
-
+import java.util.*;
 /**
  * A utility class providing various graph traversal methods using DFS.
  */
@@ -18,6 +17,29 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    if (vertex == null) {
+        return;
+    }
+
+    Stack<Vertex<T>> stack = new Stack<>();
+    Set<Vertex<T>> seen = new HashSet<>();
+
+    stack.push(vertex);
+    seen.add(vertex);
+
+    //This is Iterative not recursive
+    while (!stack.isEmpty()) { 
+      Vertex<T> cur = stack.pop();  
+      if(cur == null){
+        return;
+      }
+      for (var v : cur.neighbors) {
+        if(seen.add(v)){
+          stack.push(v);
+        }
+      }
+      System.out.println(cur.data);
+    }
   }
 
   /**
@@ -30,7 +52,31 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> seen = new HashSet<>();
+     if (vertex == null) {
+        return seen;
+    }
+
+    Stack<Vertex<T>> stack = new Stack<>();
+    //Set<Vertex<T>> seen = new HashSet<>();
+
+    stack.push(vertex);
+    seen.add(vertex);
+
+    //This is Iterative not recursive
+    while (!stack.isEmpty()) { 
+      Vertex<T> cur = stack.pop();  
+      if(cur == null){
+        return seen;
+      }
+      for (var v : cur.neighbors) {
+        if(seen.add(v)){
+          stack.push(v);
+        }
+      }
+      // System.out.println(cur.data);
+    }
+    return seen;
   }
 
   /**
@@ -43,7 +89,31 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    int max = Integer.MIN_VALUE;
+    
+    if (vertex == null) {
+      return max;
+    }
+
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    Set<Vertex<Integer>> seen = new HashSet<>();
+
+    stack.push(vertex);
+    seen.add(vertex);
+
+    //This is Iterative not recursive
+    while (!stack.isEmpty()) { 
+      Vertex<Integer> cur = stack.pop();  
+      
+      max = Math.max(max, cur.data);
+
+      for (var v : cur.neighbors) {
+          if(seen.add(v)){
+            stack.push(v);
+          }
+      }
+    }
+    return max;
   }
 
   /**
@@ -58,7 +128,36 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+
+    Set<Vertex<T>> answer = new HashSet<>();
+
+    if (vertex == null) {
+      return answer;
+    }
+    if(vertex.neighbors.isEmpty()){
+      answer.add(vertex);
+      return answer;
+    }
+
+    Stack<Vertex<T>> stack = new Stack<>();
+    Set<Vertex<T>> seen = new HashSet<>();
+
+    stack.push(vertex);
+    seen.add(vertex);
+
+    while (!stack.isEmpty()) { 
+      Vertex<T> cur = stack.pop();  
+
+      for (var v : cur.neighbors) {
+        if(seen.add(v)){
+          stack.push(v);
+          if(v.neighbors.isEmpty()){
+            answer.add(v);
+          }
+        }
+      }
+    }
+    return answer;
   }
 
 
@@ -73,6 +172,27 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    if (vertex == null) {
+      return false;
+    }
+
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    Set<Vertex<Integer>> seen = new HashSet<>();
+
+    stack.push(vertex);
+    seen.add(vertex);
+
+    while (!stack.isEmpty()) { 
+      Vertex<Integer> cur = stack.pop();  
+      if(cur.data %2 != 1){
+        return false;
+      }
+      for (var v : cur.neighbors) {
+        if(seen.add(v)){
+          stack.push(v);
+        }
+      }
+    }
     return true;
   }
 
@@ -91,6 +211,29 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    if (start == null || end == null) {
+      throw new NullPointerException();
+    }
+
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    Set<Vertex<Integer>> seen = new HashSet<>();
+
+    stack.push(start);
+    seen.add(start);
+
+    while (!stack.isEmpty()) { 
+      Vertex<Integer> cur = stack.pop();  
+      if(cur== end){
+        return true;
+      }
+      for (var v : cur.neighbors) {
+        if(seen.add(v)){
+          if(cur.data < v.data){
+            stack.push(v);
+          }
+        }
+      }
+    }
     return false;
   }
 }
