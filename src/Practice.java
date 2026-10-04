@@ -1,11 +1,14 @@
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A utility class providing various graph traversal methods using DFS.
  */
 public class Practice {
 
+  /**
+   * Helper method to perform DFS and collect all reachable vertices.
+   */
   private <T> void reachableHelper(Vertex<T> vertex, Set<Vertex<T>> visited) {
     if (vertex == null || visited.contains(vertex)) {
       return;
@@ -34,7 +37,7 @@ public class Practice {
     if (vertex == null) {
       return;
     }
-    Set<Vertex<T>> visited = new HashSet<>();
+    Set<Vertex<T>> visited = new HashSet<Vertex<T>>();
     reachableHelper(vertex, visited);
     for (Vertex<T> v : visited) {
       System.out.println(v.data);
@@ -51,7 +54,7 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    Set<Vertex<T>> visited = new HashSet<>();
+    Set<Vertex<T>> visited = new HashSet<Vertex<T>>();
     if (vertex == null) {
       return visited;
     }
@@ -94,9 +97,19 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> result = new HashSet<Vertex<T>>();
+    if (vertex == null) {
+      return result;
+    }
+    Set<Vertex<T>> visited = new HashSet<Vertex<T>>();
+    reachableHelper(vertex, visited);
+    for (Vertex<T> v : visited) {
+      if (v.neighbors == null || v.neighbors.isEmpty()) {
+        result.add(v);
+      }
+    }
+    return result;
   }
-
 
   /**
    * Returns whether all reachable vertices (including the starting vertex) hold
@@ -109,6 +122,15 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    if (vertex == null) {
+      return true;
+    }
+    Set<Vertex<Integer>> visited = reachable(vertex);
+    for (Vertex<Integer> v : visited) {
+      if (v.data % 2 == 0) {
+        return false;
+      }
+    }
     return true;
   }
 
@@ -127,6 +149,30 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    if (start == null || end == null) {
+      throw new NullPointerException("Start and end vertices must not be null");
+    }
+    return dfsIncreasing(start, end, new HashSet<Vertex<Integer>>());
+  }
+
+  /**
+   * Helper method to recursively check for a strictly increasing path using DFS with backtracking.
+   */
+  private boolean dfsIncreasing(Vertex<Integer> current, Vertex<Integer> target, Set<Vertex<Integer>> pathVisited) {
+    if (current == target) {
+      return true;
+    }
+    pathVisited.add(current);
+    if (current.neighbors != null) {
+      for (Vertex<Integer> neighbor : current.neighbors) {
+        if (neighbor != null && neighbor.data > current.data && !pathVisited.contains(neighbor)) {
+          if (dfsIncreasing(neighbor, target, pathVisited)) {
+            return true;
+          }
+        }
+      }
+    }
+    pathVisited.remove(current);
     return false;
   }
 }
