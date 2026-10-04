@@ -56,8 +56,30 @@ private <T> void printVertexVals(Vertex<T> current,
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+  Set<Vertex<T>> visited = new HashSet<>();
+    if (vertex == null) {
+     
+    return visited;
   }
+  
+  reachable(vertex, visited);
+  return visited;
+  }
+  
+  private <T> void reachable(Vertex<T> current,
+    Set<Vertex<T>> visited) {
+if (visited.contains(current)) {
+   return;
+
+  }
+  visited.add(current);
+  
+ // Visit neighbors
+ for (Vertex<T> neighbor : current.neighbors) {
+   reachable(neighbor, visited);
+   }
+  
+ }
 
   /**
    * Returns the maximum value among all vertices reachable from the given starting vertex,
