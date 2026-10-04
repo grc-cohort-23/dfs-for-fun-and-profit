@@ -31,6 +31,14 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    if (vertex == null) {
+      return;
+    }
+    Set<Vertex<T>> visited = new HashSet<>();
+    reachableHelper(vertex, visited);
+    for (Vertex<T> v : visited) {
+      System.out.println(v.data);
+    }
   }
 
   /**
