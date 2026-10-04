@@ -18,7 +18,7 @@ public class Practice {
    *
    * @param vertex The starting vertex for the traversal.
    */
-  public <T> void printVertexVals(Vertex<T> vertex) { {
+  public <T> void printVertexVals(Vertex<T> vertex) { 
     if (vertex == null) {
         return;
     }
