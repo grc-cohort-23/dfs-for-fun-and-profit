@@ -8,30 +8,32 @@ public class Practice {
 
   /**
    * Prints the value of every vertex reachable from the given starting vertex,
-   * including the starting vertex itself. Each value is printed on a separate line.
+   * including the starting vertex itself. Each value is printed on a separate
+   * line.
    * The order of printing is unimportant.
    *
-   * Each vertex's value should be printed only once, even if it is reachable via multiple paths.
+   * Each vertex's value should be printed only once, even if it is reachable via
+   * multiple paths.
    * It is guaranteed that no two vertices will have the same value.
    *
    * If the given vertex is null, this method prints nothing.
    *
    * @param vertex The starting vertex for the traversal.
    */
-  public <T> void printVertexVals(Vertex<T> vertex) { 
+  public <T> void printVertexVals(Vertex<T> vertex) {
     if (vertex == null) {
-        return;
+      return;
     }
 
     Set<Vertex<T>> visited = new HashSet<>();
     printVertexVals(vertex, visited);
-}
+  }
 
-private <T> void printVertexVals(Vertex<T> current,
-  Set<Vertex<T>> visited) {
+  private <T> void printVertexVals(Vertex<T> current,
+      Set<Vertex<T>> visited) {
     if (visited.contains(current)) {
 
-        return;
+      return;
     }
 
     visited.add(current);
@@ -40,11 +42,9 @@ private <T> void printVertexVals(Vertex<T> current,
     // Visit all neighbors
     for (Vertex<T> neighbor : current.neighbors) {
 
-        printVertexVals(neighbor, visited);
+      printVertexVals(neighbor, visited);
     }
-
-
-  }
+ }
 
   /**
    * Returns a set of all vertices reachable from the given starting vertex,
@@ -53,70 +53,71 @@ private <T> void printVertexVals(Vertex<T> current,
    * If the given vertex is null, an empty set is returned.
    *
    * @param vertex The starting vertex for the traversal.
-   * @return A set containing all reachable vertices, or an empty set if vertex is null.
+   * @return A set containing all reachable vertices, or an empty set if vertex is
+   *         null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-  Set<Vertex<T>> visited = new HashSet<>();
+    Set<Vertex<T>> visited = new HashSet<>();
     if (vertex == null) {
-     
+
+      return visited;
+    }
+
+    reachable(vertex, visited);
     return visited;
   }
-  
-  reachable(vertex, visited);
-  return visited;
-  }
-  
+
   private <T> void reachable(Vertex<T> current,
-    Set<Vertex<T>> visited) {
-if (visited.contains(current)) {
-   return;
+      Set<Vertex<T>> visited) {
+    if (visited.contains(current)) {
+      return;
+
+    }
+    visited.add(current);
+
+    // Visit neighbors
+    for (Vertex<T> neighbor : current.neighbors) {
+      reachable(neighbor, visited);
+    }
 
   }
-  visited.add(current);
-  
- // Visit neighbors
- for (Vertex<T> neighbor : current.neighbors) {
-   reachable(neighbor, visited);
-   }
-  
- }
 
   /**
-   * Returns the maximum value among all vertices reachable from the given starting vertex,
+   * Returns the maximum value among all vertices reachable from the given
+   * starting vertex,
    * including the starting vertex itself.
    *
    * If the given vertex is null, the method returns Integer.MIN_VALUE.
    *
    * @param vertex The starting vertex for the traversal.
-   * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
+   * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if
+   *         vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
 
-  if (vertex == null) {
-  return Integer.MIN_VALUE;
-  
-   }
+    if (vertex == null) {
+      return Integer.MIN_VALUE;
 
-  Set<Vertex<Integer>> visited = new HashSet<>();
-  return max(vertex, visited);
+    }
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return max(vertex, visited);
   }
-  
+
   // Finds the biggest value
   private int max(Vertex<Integer> current,
-    Set<Vertex<Integer>> visited) {
-   if (visited.contains(current)) {
-    return Integer.MIN_VALUE;
-      }
-      visited.add(current);
-   int maxValue = current.data;
-  
-    
- for (Vertex<Integer> neighbor : current.neighbors) {
-     maxValue = Math.max(maxValue, max(neighbor, visited));
-   }
-  
-  return maxValue;
-  
+      Set<Vertex<Integer>> visited) {
+    if (visited.contains(current)) {
+      return Integer.MIN_VALUE;
+    }
+    visited.add(current);
+    int maxValue = current.data;
+
+    for (Vertex<Integer> neighbor : current.neighbors) {
+      maxValue = Math.max(maxValue, max(neighbor, visited));
+    }
+
+    return maxValue;
 
   }
 
@@ -129,16 +130,46 @@ if (visited.contains(current)) {
    * If the given vertex is null, an empty set is returned.
    *
    * @param vertex The starting vertex for the traversal.
-   * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
+   * @return A set containing all reachable leaf vertices, or an empty set if
+   *         vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> leaves = new HashSet<>();
+    if (vertex == null) {
+      return leaves;
+    }
+
+    Set<Vertex<T>> visited = new HashSet<>();
+    leaves(vertex, leaves, visited);
+    return leaves;
   }
 
+  // Finds vertices with no neighbors
+  private <T> void leaves(Vertex<T> current,
+      Set<Vertex<T>> leaves,
+      Set<Vertex<T>> visited) {
+    if (visited.contains(current)) {
+      return;
+    }
+
+    visited.add(current);
+
+    if (current.neighbors.isEmpty()) {
+      leaves.add(current);
+      return;
+    }
+
+    for (Vertex<T> neighbor : current.neighbors) {
+      leaves(neighbor, leaves, visited);
+    }
+
+
+  }
 
   /**
    * Returns whether all reachable vertices (including the starting vertex) hold
-   * odd values. Returns false if at least one reachable vertex (including the starting vertex)
+   * odd values. Returns false if at least one reachable vertex (including the
+   * starting vertex)
    * holds an even value.
    * 
    * If the given vertex is null, returns true.
@@ -151,16 +182,18 @@ if (visited.contains(current)) {
   }
 
   /**
-   * Determines whether there exists a strictly increasing path from the given start vertex
+   * Determines whether there exists a strictly increasing path from the given
+   * start vertex
    * to the target vertex.
    *
-   * A path is strictly increasing if each visited vertex has a value strictly greater than
+   * A path is strictly increasing if each visited vertex has a value strictly
+   * greater than
    * (not equal to) the previous vertex in the path.
    *
    * If either start or end is null, a NullPointerException is thrown.
    *
    * @param start The starting vertex.
-   * @param end The target vertex.
+   * @param end   The target vertex.
    * @return True if a strictly increasing path exists, false otherwise.
    * @throws NullPointerException if either start or end is null.
    */
