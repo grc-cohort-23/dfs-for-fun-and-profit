@@ -91,7 +91,33 @@ if (visited.contains(current)) {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+
+  if (vertex == null) {
+  return Integer.MIN_VALUE;
+  
+   }
+
+  Set<Vertex<Integer>> visited = new HashSet<>();
+  return max(vertex, visited);
+  }
+  
+  // Finds the biggest value
+  private int max(Vertex<Integer> current,
+    Set<Vertex<Integer>> visited) {
+   if (visited.contains(current)) {
+    return Integer.MIN_VALUE;
+      }
+      visited.add(current);
+   int maxValue = current.data;
+  
+    
+ for (Vertex<Integer> neighbor : current.neighbors) {
+     maxValue = Math.max(maxValue, max(neighbor, visited));
+   }
+  
+  return maxValue;
+  
+
   }
 
   /**
