@@ -5,6 +5,18 @@ import java.util.Set;
  */
 public class Practice {
 
+  private <T> void reachableHelper(Vertex<T> vertex, Set<Vertex<T>> visited) {
+    if (vertex == null || visited.contains(vertex)) {
+      return;
+    }
+    visited.add(vertex);
+    if (vertex.neighbors != null) {
+      for (Vertex<T> neighbor : vertex.neighbors) {
+        reachableHelper(neighbor, visited);
+      }
+    }
+  }
+
   /**
    * Prints the value of every vertex reachable from the given starting vertex,
    * including the starting vertex itself. Each value is printed on a separate line.
