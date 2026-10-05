@@ -44,7 +44,7 @@ public class Practice {
 
       printVertexVals(neighbor, visited);
     }
- }
+  }
 
   /**
    * Returns a set of all vertices reachable from the given starting vertex,
@@ -162,8 +162,6 @@ public class Practice {
     for (Vertex<T> neighbor : current.neighbors) {
       leaves(neighbor, leaves, visited);
     }
-
-
   }
 
   /**
@@ -178,6 +176,22 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return allOdd(vertex, visited);
+  }
+
+  private boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+    if (vertex == null || visited.contains(vertex))
+      return true;
+    visited.add(vertex);
+    if (vertex.data % 2 == 0)
+      return false;
+    for (Vertex<Integer> v : vertex.neighbors) {
+      if (!allOdd(v, visited)) {
+        return false;
+      }
+    }
     return true;
   }
 
