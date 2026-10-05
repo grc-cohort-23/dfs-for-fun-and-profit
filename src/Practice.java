@@ -103,17 +103,22 @@ public class Practice {
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
     Set<Vertex<T>> leafSet = new HashSet<>();
-    leaves(vertex, leafSet);
+    Set<Vertex<T>> visited = new HashSet<>();
+    leaves(vertex, leafSet, visited);
     return leafSet;
   }
 
-  private <T> Set<Vertex<T>> leaves(Vertex<T> vertex, Set<Vertex<T>> leafSet) {
-    if(vertex==null || leafSet.contains(vertex)) return new HashSet<>();
-    leafSet.add(vertex);
+  private <T> Set<Vertex<T>> leaves(Vertex<T> vertex, Set<Vertex<T>> leafSet, Set<Vertex<T>> visited) {
+    if(vertex==null || visited.contains(vertex)) return new HashSet<>();
+    visited.add(vertex);
+    
+    if(vertex.neighbors.isEmpty()){
+      leafSet.add(vertex);
+      return leafSet;
+    }
 
     for(var neighbor : vertex.neighbors){
-      if(neighbor==null) leafSet.add(neighbor);
-      leaves(neighbor, leafSet);
+      leaves(neighbor, leafSet, visited);
     }
     return leafSet;
   }
