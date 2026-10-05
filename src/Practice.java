@@ -1,4 +1,6 @@
 import java.util.Set;
+import java.util.HashSet;
+
 
 /**
  * A utility class providing various graph traversal methods using DFS.
@@ -17,7 +19,20 @@ public class Practice {
    *
    * @param vertex The starting vertex for the traversal.
    */
-  public <T> void printVertexVals(Vertex<T> vertex) {
+  public void printVertexVals(Vertex<?> vertex) {
+    Set<Vertex<?>> visited = new HashSet<>();
+    printVertexVals(vertex, visited);
+
+  }
+  public static void printVertexVals(Vertex<?> current, Set<Vertex<?>> visited){
+    if(current == null || visited.contains(current)) return;
+    visited.add(current);
+
+    System.out.println(current.data);
+
+    for(Vertex<?> neighbor : current.neighbors){
+      printVertexVals(neighbor, visited);
+    }
   }
 
   /**
