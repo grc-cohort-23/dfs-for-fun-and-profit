@@ -46,7 +46,20 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    if(vertex==null) return new HashSet<>();
+    Set<Vertex<T>> allVertices = new HashSet<>();
+    
+    reachable(vertex, allVertices);
+    return allVertices;
+  }
+
+  private <T> void reachable(Vertex<T> vertex, Set<Vertex<T>> allVertices){
+    if(vertex==null || allVertices.contains(vertex)) return;
+    allVertices.add(vertex);
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      reachable(neighbor, allVertices);
+    }
   }
 
   /**
