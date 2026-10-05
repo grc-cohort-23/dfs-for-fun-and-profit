@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,7 +18,22 @@ public class Practice {
    *
    * @param vertex The starting vertex for the traversal.
    */
-  public <T> void printVertexVals(Vertex<T> vertex) {
+  public <T> void printVertexVals(Vertex<T> vertex){
+    Set<Vertex<T>> visited = new HashSet<>();
+    printVertexVals(vertex, visited);
+  }
+
+  public <T> void printVertexVals(Vertex<T> vertex, Set<Vertex<T>> visited) {
+    if(vertex==null) return;
+
+    if(visited.contains(vertex)) return;
+    visited.add(vertex);
+
+    System.out.println(vertex.data);
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      printVertexVals(neighbor, visited);
+    }
   }
 
   /**
@@ -30,7 +46,20 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    if(vertex==null) return new HashSet<>();
+    Set<Vertex<T>> allVertices = new HashSet<>();
+    
+    reachable(vertex, allVertices);
+    return allVertices;
+  }
+
+  private <T> void reachable(Vertex<T> vertex, Set<Vertex<T>> allVertices){
+    if(vertex==null || allVertices.contains(vertex)) return;
+    allVertices.add(vertex);
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      reachable(neighbor, allVertices);
+    }
   }
 
   /**
@@ -43,7 +72,22 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return max(vertex, visited);
+  }
+
+  private int max(Vertex<Integer> vertex, Set<Vertex<Integer>> visited){
+    if(vertex == null || visited.contains(vertex)) return Integer.MIN_VALUE;
+    visited.add(vertex);
+
+    int maxVal = vertex.data;
+
+    for(var neighbor : vertex.neighbors){
+      int maxNeighbor = max(neighbor, visited);
+      if(maxVal < maxNeighbor) maxVal = maxNeighbor;
+    }
+
+    return maxVal;
   }
 
   /**
@@ -58,7 +102,25 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> leafSet = new HashSet<>();
+    Set<Vertex<T>> visited = new HashSet<>();
+    leaves(vertex, leafSet, visited);
+    return leafSet;
+  }
+
+  private <T> Set<Vertex<T>> leaves(Vertex<T> vertex, Set<Vertex<T>> leafSet, Set<Vertex<T>> visited) {
+    if(vertex==null || visited.contains(vertex)) return new HashSet<>();
+    visited.add(vertex);
+    
+    if(vertex.neighbors.isEmpty()){
+      leafSet.add(vertex);
+      return leafSet;
+    }
+
+    for(var neighbor : vertex.neighbors){
+      leaves(neighbor, leafSet, visited);
+    }
+    return leafSet;
   }
 
 
@@ -73,6 +135,19 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return allOdd(vertex, visited);
+  }
+
+  private boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> visited){
+    if(vertex==null || visited.contains(vertex)) return true;
+    visited.add(vertex);
+
+    if(vertex.data%2==0) return false;
+
+    for(var neighbor : vertex.neighbors){
+      if(!allOdd(neighbor, visited)) return false;
+    }
     return true;
   }
 
@@ -91,6 +166,22 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    Set<Vertex<?>> visited = new HashSet<>();
+    return hasStrictlyIncreasingPath(start, end, visited);
+  }
+
+  private boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end, Set<Vertex<?>> visited) {
+    if(start==null || end==null || visited.contains(start)) throw new NullPointerException();
+    if(start.equals(end)) return true;
+    
+    visited.add(start);
+
+    for(var neighbor : start.neighbors){
+      if(!visited.contains(neighbor) && neighbor.data > start.data){
+        if(hasStrictlyIncreasingPath(neighbor, end, visited)) return true;
+      }
+    }
+
     return false;
   }
 }
