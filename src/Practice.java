@@ -118,6 +118,17 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    if (vertex == null) {
+      return true;
+    }
+
+    reachable(vertex, visited);
+    for (Vertex<Integer> v : visited) {
+      if (v.data % 2 == 0) {
+        return false;
+      }
+    }
     return true;
   }
 
