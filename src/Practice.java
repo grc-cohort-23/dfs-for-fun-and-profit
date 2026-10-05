@@ -212,6 +212,38 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+
+
+    // Check if there is a path where the values keep increasing
+    if (start == null || end == null) {
+      throw new NullPointerException();
+    }
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+
+    return findPath(start, end, visited);
+  }
+
+  // Find the path
+  private boolean findPath(Vertex<Integer> v,
+      Vertex<Integer> end,
+      Set<Vertex<Integer>> visited) {
+
+    if (v == end) {
+      return true;
+    }
+
+    visited.add(v);
+
+    for (Vertex<Integer> x : v.neighbors) {
+
+      if (!visited.contains(x) && x.data > v.data) {
+        if (findPath(x, end, visited)) {
+          return true;
+        }
+      }
+    }
+
     return false;
   }
 }
