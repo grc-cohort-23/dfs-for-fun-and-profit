@@ -156,6 +156,7 @@ public class Practice {
   public Set increasingVisited = new HashSet<>();
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
     if(start == null || end == null) throw new NullPointerException("Start or End is null");
+    if(start == end) return true;
     for(Vertex<Integer> n : start.neighbors){
       if(increasingVisited.contains(n)) continue;
       if(start.data < n.data && hasStrictlyIncreasingPath(n, end)){
