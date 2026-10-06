@@ -171,6 +171,33 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    if (vertex == null) return true;
+
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    Set<Vertex<Integer>> visited = new HashSet<>();
+
+    stack.push(vertex);
+
+    while(!stack.isEmpty()) {
+      Vertex<Integer> current = stack.pop();
+        if (current.data % 2 == 0) {
+            return false;
+        }
+      if (!visited.contains(current)) {
+        
+        
+        visited.add(current);
+
+        for(Vertex<Integer> neighbor : current.neighbors) {
+          if (!visited.contains(neighbor)) {
+            if (neighbor.data % 2 == 0) {
+              return false;
+            }
+            stack.push(neighbor);
+          }
+        }
+      }
+    }
     return true;
   }
 
