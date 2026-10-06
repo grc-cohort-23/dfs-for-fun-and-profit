@@ -160,7 +160,33 @@ public <T> void reachableHelper(Vertex<T> vertex, Set<Vertex<T>> visited) {
      * @return true if all reachable vertices hold odd values, false otherwise
      */
     public boolean allOdd(Vertex<Integer> vertex) {
+      Set<Vertex<Integer>> visited = new HashSet<>();
+
+      return allOddHelper(vertex, visited);
+    }
+
+    public boolean allOddHelper(
+        Vertex<Integer> vertex,
+        Set<Vertex<Integer>> visited) {
+
+
+      if (vertex == null || visited.contains(vertex)) return true;
+      visited.add(vertex);
+
+
+      // If current value is even, return false
+      if (vertex.data % 2 == 0) return false;
+
+      // Check every neighbor
+      for (Vertex<Integer> neighbor : vertex.neighbors) {
+        if (!allOddHelper(neighbor, visited)) {
+          return false;
+        }
+      }
+
+      // No even values were found
       return true;
+
   }
 
   /**
