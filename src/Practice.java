@@ -98,8 +98,7 @@ public class Practice {
         max = current.data;
       }
     }
-
-
+    return max;
   }
 
   /**
