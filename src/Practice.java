@@ -144,6 +144,7 @@ public class Practice {
     if(vertex == null){
       return true;
     }
+    Set<Vertex<Integer>> vertices = reachable(vertex);
   }
 
   /**
