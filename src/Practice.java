@@ -52,6 +52,8 @@ public class Practice {
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
     Set<Vertex<T>>visited = new HashSet<>();
+
+    reachableHelper(vertex,visited);
   
 
     return visited;
