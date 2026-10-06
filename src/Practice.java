@@ -19,36 +19,30 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
-
-  Set<Vertex<T>> visited = new HashSet<>();
-
-   helper(vertex,visited);
-
-    System.out.println(vertex.data);
-
-    for(Vertex<T> neighbor : vertex.neighbors){
-      printVertexVals(neighbor);
-    }
-
     Set<Vertex<T>> visited = new HashSet<>();
-
-    if(visited.contains(vertex)){
-      return;
-    }
-    visited.add(vertex);
-
-    System.out.println(vertex.data);
-
+    helper(vertex,visited);
+  }
     //helper method
     private <T> void helper(Vertex<T> vertex, Set<Vertex<T>> visited) {
-      if(vertex == null){
-        return;
+     if(vertex == null){
+      return;
       }
-   
+
+    if (visited.contains(vertex)) {
+       return;
+    }
+    visited.add(vertex);
+    System.out.println(vertex.data);
+
+    for (Vertex<T> neighbor : vertex.neighbors) {
+        helper(neighbor, visited);
+    }
     }
 
+  
 
-  }
+
+
 
   /**
    * Returns a set of all vertices reachable from the given starting vertex,
