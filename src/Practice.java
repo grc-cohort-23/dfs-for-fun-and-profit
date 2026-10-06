@@ -136,7 +136,7 @@ public class Practice {
       } else oddVisited.add(n);
       if(allOdd(n) == false) return false;
     }
-    return (vertex.data % 2 == 0);
+    return (vertex.data % 2 != 0);
   }
 
   /**
