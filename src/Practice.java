@@ -20,7 +20,11 @@ public class Practice {
   public <T> void printVertexVals(Vertex<T> vertex) {
 
     System.out.println(vertex.data);
-    
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      printVertexVals(neighbor);
+    }
+
   }
 
   /**
