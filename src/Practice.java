@@ -173,5 +173,34 @@ public class Practice {
     if(start == null || end == null){
       throw new NullPointerException();
     }
+
+    Set<Vertex>> visited = new HashSet<>();
+
+    return increasingHelper(start,end, visited);
   }
+  private boolean increaseHelper(
+    Vertex<Integer>current,
+    Vertex<Integer>end,
+    Set<Vertex<Integer>> visited){
+
+      if(current ==end){
+        return true;
+      }
+      if (visited.contains(current)) {
+        return false;
+        
+      }
+      visited.add(current);
+      for(Vertex<Integer>neighbor : current.neighbors){
+        if(neighbor.data > current.data){
+
+          if(increaseHelper(current, end, visited)){
+            return true;
+          }
+        }
+      }
+      return false;
+
+    }
+
 }
