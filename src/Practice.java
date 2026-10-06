@@ -184,7 +184,7 @@ public <T> void reachableHelper(Vertex<T> vertex, Set<Vertex<T>> visited) {
         }
       }
 
-      // No even values were found
+      // No even values found
       return true;
 
   }
@@ -204,6 +204,35 @@ public <T> void reachableHelper(Vertex<T> vertex, Set<Vertex<T>> visited) {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
-    return false;
+    if (start == null || end == null) {
+    throw new NullPointerException();
   }
+
+  // Start searching from start
+  return increasingHelper(start, end);
+}
+
+  public boolean increasingHelper(Vertex<Integer> current, Vertex<Integer> end) {
+    // If we reached the target, return tru
+    if (current == end) return true;
+
+
+    // Check every neighbor
+    for (Vertex<Integer> neighbor : current.neighbors) {
+
+      // Only move to a neighbor if its value is bigger
+      if (neighbor.data > current.data) {
+
+        // Keep searching from that neighbor
+        if (increasingHelper(neighbor, end)) {
+          return true;
+        }
+      }
+    }
+    return false;
+
+  }
+
+
+  
 }
