@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -41,17 +42,20 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
-  public Set<Vertex> reaching = new HashSet();
+  public Set reaching = new HashSet<>();
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
     if(vertex == null){
-      public Set<Vertex> veturn = new HashSet();
+      Set<Vertex<T>> veturn = new HashSet();
       return veturn;
     }
+    
     for(Vertex n : vertex.neighbors){
-      reachable(n);
-
+      if(!reaching.contains(n)){
+        reaching.add(n);
+        reachable(n);
+      }
     }
-    return null;
+    return reaching;
   }
 
   /**
