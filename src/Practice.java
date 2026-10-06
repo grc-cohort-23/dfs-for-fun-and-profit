@@ -158,8 +158,10 @@ public class Practice {
     if(start == null || end == null) throw new NullPointerException("Start or End is null");
     for(Vertex<Integer> n : start.neighbors){
       if(increasingVisited.contains(n)) continue;
-      increasingVisited.add(n);
-      if(start.data < n.data) hasStrictlyIncreasingPath(n, end);
+      if(start.data < n.data){
+        increasingVisited.add(n);
+        hasStrictlyIncreasingPath(n, end);
+      }
     }
     return increasingVisited.contains(end);
   }
