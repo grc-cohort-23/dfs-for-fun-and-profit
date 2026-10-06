@@ -134,7 +134,23 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
-    return true;
+    if(vertex == null)return true;
+
+    Set<Vertex<Integer>> set = new HashSet<>();
+
+    return allOdd(vertex,set);
+  }
+
+  private boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> set){
+    if(vertex == null || set.contains(vertex))return true;
+    set.add(vertex);
+    
+    boolean allOdd = vertex.data % 2 != 0;
+
+    for(Vertex<Integer> neighbor : vertex.neighbors){
+      allOdd = allOdd && allOdd(neighbor,set);
+    }
+    return allOdd;
   }
 
   /**
