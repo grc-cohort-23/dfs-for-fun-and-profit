@@ -128,7 +128,10 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
-    return true;
+    for(Vertex n : vertex.neighbors){
+      if(allOdd(n) == false) return false;
+    }
+    return (vertex.data % 2 == 0);
   }
 
   /**
