@@ -25,14 +25,14 @@ public class Practice {
   
   }
   private <T> void printVertHelper(Vertex<T> vertex, Set<Vertex<T>> seen){
-    if(vertex == null || seen.contains(vertex){
+    if(vertex == null || seen.contains(vertex)){
       return;
     }
     seen.add(vertex);
     System.out.println(vertex.data);
 
     for(Vertex<T> neighbor : vertex.neighbors){
-      printVertHelper(vertex, seen);
+      printVertHelper(neighbor, seen);
     }
   }
 
@@ -49,6 +49,7 @@ public class Practice {
     Set<Vertex<T>> seen = new HashSet<>();
     //helper method needs to go here
     reachHelp(vertex, seen);
+    return seen;
   }
   private <T> void reachHelp(Vertex<T> vertex, Set<Vertex<T>> seen){
     if(vertex == null || seen.contains(vertex)){
