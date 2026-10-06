@@ -21,6 +21,7 @@ public class Practice {
   public <T> void printVertexVals(Vertex<T> vertex) {
     Set<Vertex<T>> seen = new HashSet<>();
     //helper method for recursion 
+    printVertHelper(vertex, seen);
   
   }
   private <T> void printVertHelper(Vertex<T> vertex, Set<Vertex<T>> seen){
@@ -45,7 +46,21 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> seen = new HashSet<>();
+    //helper method needs to go here
+    reachHelp(vertex, seen);
+  }
+  private <T> void reachHelp(Vertex<T> vertex, Set<Vertex<T>> seen){
+    if(vertex == null || seen.contains(vertex)){
+      return;
+    }
+
+    seen.add(vertex);
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      reachHelp(neighbor, seen);
+    }
+
   }
 
   /**
