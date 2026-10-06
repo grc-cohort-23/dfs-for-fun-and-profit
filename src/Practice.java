@@ -103,13 +103,14 @@ public class Practice {
       return veturn;
     }
     leavesVisited.add(vertex);
+    if(vertex.neighbors.isEmpty()) leafNodes.add(vertex);
     for(Vertex n : vertex.neighbors){
+      if(n.neighbors.isEmpty()){
+        leafNodes.add(n);
+      }
       if(!reaching.contains(n)){
         leavesVisited.add(n);
         reachable(n);
-      }
-      if(n.neighbors.isEmpty()){
-        leafNodes.add(n);
       }
     }
     return leafNodes;
