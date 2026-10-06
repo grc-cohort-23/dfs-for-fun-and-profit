@@ -1,3 +1,6 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,6 +21,24 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    if (vertex == null) return;
+
+    Set<Vertex<T>> visited = new HashSet<>();
+    Deque<Vertex<T>> stack = new ArrayDeque<>();
+    stack.push(vertex);
+
+    while (!stack.isEmpty()) {
+        Vertex<T> current = stack.pop();
+        if (!visited.add(current)) continue; // already printed
+
+        System.out.println(current.data);
+
+        for (Vertex<T> neighbor : current.neighbors) {
+            if (neighbor != null && !visited.contains(neighbor)) {
+                stack.push(neighbor);
+            }
+        }
+    }
   }
 
   /**
@@ -30,7 +51,23 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> visited = new HashSet<>();
+    if (vertex == null) return visited;
+
+    Deque<Vertex<T>> stack = new ArrayDeque<>();
+    stack.push(vertex);
+
+    while (!stack.isEmpty()) {
+        Vertex<T> current = stack.pop();
+        if (!visited.add(current)) continue;
+
+        for (Vertex<T> neighbor : current.neighbors) {
+            if (neighbor != null && !visited.contains(neighbor)) {
+                stack.push(neighbor);
+            }
+        }
+    }
+    return visited;
   }
 
   /**
@@ -43,7 +80,11 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    int max = Integer.MIN_VALUE;
+    for (Vertex<Integer> v : reachable(vertex)) {
+        max = Math.max(max, v.data);
+    }
+    return max;
   }
 
   /**
@@ -58,7 +99,13 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> result = new HashSet<>();
+    for (Vertex<T> v : reachable(vertex)) {
+        if (v.neighbors == null || v.neighbors.isEmpty()) {
+            result.add(v);
+        }
+    }
+    return result;
   }
 
 
@@ -73,6 +120,9 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    for (Vertex<Integer> v : reachable(vertex)) {
+        if (v.data % 2 == 0) return false;
+    }
     return true;
   }
 
@@ -91,6 +141,23 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    if (start == null || end == null) throw new NullPointerException();
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    Deque<Vertex<Integer>> stack = new ArrayDeque<>();
+    stack.push(start);
+
+    while (!stack.isEmpty()) {
+        Vertex<Integer> current = stack.pop();
+        if (current == end) return true;
+        if (!visited.add(current)) continue;
+
+        for (Vertex<Integer> neighbor : current.neighbors) {
+            if (neighbor != null && neighbor.data > current.data) {
+                stack.push(neighbor);
+            }
+        }
+    }
     return false;
   }
 }
