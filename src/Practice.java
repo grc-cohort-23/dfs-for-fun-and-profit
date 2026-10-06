@@ -89,7 +89,9 @@ public class Practice {
     if(vertex == null){
       return Integer.MIN_VALUE;
     }
+    Set<Vertex<Integer>> vertecies = reachable(vertex);
     
+
   }
 
   /**
