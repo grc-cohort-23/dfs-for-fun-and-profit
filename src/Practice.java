@@ -110,7 +110,7 @@ public class Practice {
       }
       if(!reaching.contains(n)){
         leavesVisited.add(n);
-        reachable(n);
+        leaves(n);
       }
     }
     return leafNodes;
