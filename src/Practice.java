@@ -170,6 +170,8 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
-    return false;
+    if(start == null || end == null){
+      throw new NullPointerException();
+    }
   }
 }
