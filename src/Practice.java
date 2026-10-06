@@ -1,4 +1,5 @@
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * A utility class providing various graph traversal methods using DFS.
@@ -18,6 +19,21 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    Set<Vertex<T>> seen = new HashSet<>();
+    //helper method for recursion 
+    printVertHelper(vertex, seen);
+  
+  }
+  private <T> void printVertHelper(Vertex<T> vertex, Set<Vertex<T>> seen){
+    if(vertex == null || seen.contains(vertex)){
+      return;
+    }
+    seen.add(vertex);
+    System.out.println(vertex.data);
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      printVertHelper(neighbor, seen);
+    }
   }
 
   /**
@@ -30,7 +46,22 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> seen = new HashSet<>();
+    //helper method needs to go here
+    reachHelp(vertex, seen);
+    return seen;
+  }
+  private <T> void reachHelp(Vertex<T> vertex, Set<Vertex<T>> seen){
+    if(vertex == null || seen.contains(vertex)){
+      return;
+    }
+
+    seen.add(vertex);
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      reachHelp(neighbor, seen);
+    }
+
   }
 
   /**
@@ -43,8 +74,25 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    Set<Vertex<Integer>> beenThere = new HashSet<>();
+    return maximumHelp(vertex, beenThere);
   }
+
+  private int maximumHelp(Vertex<Integer> vertex, Set<Vertex<Integer>> beenThere) {
+      if(vertex == null || beenThere.contains(vertex)){
+        return Integer.MIN_VALUE;
+      }
+      beenThere.add(vertex);
+
+      int biggestBoy = vertex.data;
+
+      for(Vertex<Integer> neighbor : vertex.neighbors){
+        biggestBoy = Math.max(biggestBoy, maximumHelp(neighbor, beenThere));
+      }
+      return biggestBoy;
+    }
+    
+
 
   /**
    * Returns a set of all leaf vertices reachable from the given starting vertex.
@@ -58,7 +106,27 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> beenSeen = new HashSet<>();
+    Set<Vertex<T>> theLeaves = new HashSet<>();
+
+    leavesHelper(vertex, beenSeen, theLeaves);
+    return theLeaves;
+  }
+  private <T> void leavesHelper(Vertex<T> vertex, Set<Vertex<T>> beenSeen, Set<Vertex<T>> theLeaves){
+    if(vertex == null || beenSeen.contains(vertex)){
+      return;
+    }
+
+    beenSeen.add(vertex);
+    if ( vertex.neighbors.isEmpty()){
+      theLeaves.add(vertex);
+      return;
+    }
+
+    for(Vertex<T> neighbor : vertex.neighbors){
+      leavesHelper(neighbor, beenSeen, theLeaves);
+    }
+
   }
 
 
@@ -73,8 +141,33 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    Set<Vertex<Integer>> seen = new HashSet<>();
+    return oddHelp(vertex, seen);
+  }
+
+  private boolean oddHelp(
+      Vertex<Integer> vertex,
+      Set<Vertex<Integer>> seen
+  ) {
+    if (vertex == null || seen.contains(vertex)) {
+      return true;
+    }
+
+    seen.add(vertex);
+
+    if (vertex.data % 2 == 0) {
+      return false;
+    }
+
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+      if (!oddHelp(neighbor, seen)) {
+        return false;
+      }
+    }
+
     return true;
   }
+  
 
   /**
    * Determines whether there exists a strictly increasing path from the given start vertex
@@ -91,6 +184,25 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+  if (start == null || end == null) {
+      throw new NullPointerException();
+    }
+    Set<Vertex<Integer>> seen = new HashSet<>();
+    return helper(start, end, seen);
+  }
+
+  private boolean helper(Vertex<Integer> current, Vertex<Integer> end, Set<Vertex<Integer>> seen) {
+    if (current == end) {
+      return true;
+    }
+
+    seen.add(current);
+    //if neighbor is greater than current and seen has neighbor return true
+    for (Vertex<Integer> neighbor : current.neighbors) {
+      if (neighbor.data > current.data && !seen.contains(neighbor) && helper(neighbor, end, seen)) {
+        return true;
+      }
+    }
     return false;
   }
 }
