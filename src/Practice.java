@@ -174,9 +174,9 @@ public class Practice {
       throw new NullPointerException();
     }
 
-    Set<Vertex>> visited = new HashSet<>();
+    Set<Vertex<Integer>> visited = new HashSet<>();
 
-    return increasingHelper(start,end, visited);
+    return increaseHelper(start,end, visited);
   }
   private boolean increaseHelper(
     Vertex<Integer>current,
@@ -194,7 +194,7 @@ public class Practice {
       for(Vertex<Integer>neighbor : current.neighbors){
         if(neighbor.data > current.data){
 
-          if(increaseHelper(current, end, visited)){
+          if(increaseHelper(neighbor, end, visited)){
             return true;
           }
         }
