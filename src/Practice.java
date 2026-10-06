@@ -1,5 +1,6 @@
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * A utility class providing various graph traversal methods using DFS.
@@ -168,6 +169,25 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    if(start == null || end == null) throw new NullPointerException();
+
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    stack.add(start);
+
+    Set<Vertex<Integer>> set = new HashSet<>();
+
+
+    while(!stack.isEmpty()){
+      Vertex<Integer> current = stack.pop();
+      if(set.contains(current)) continue;
+      if(current == end) return true;
+
+      for(Vertex<Integer> neighbor : current.neighbors){
+        if(neighbor.data > current.data){
+          stack.add(neighbor);
+        }
+      }
+    }
     return false;
   }
 }
