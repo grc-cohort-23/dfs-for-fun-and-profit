@@ -90,7 +90,15 @@ public class Practice {
       return Integer.MIN_VALUE;
     }
     Set<Vertex<Integer>> vertecies = reachable(vertex);
-    
+
+    int max = Integer.MIN_VALUE;
+
+    for(Vertex<Integer> current : vertecies){
+      if(current.data > max){
+        max = current.data;
+      }
+    }
+
 
   }
 
