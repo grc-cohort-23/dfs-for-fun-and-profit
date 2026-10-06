@@ -95,8 +95,24 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
+  public Set leavesVisited = new HashSet<>();
+  public Set leafNodes = new HashSet<>();
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    if(vertex == null){
+      Set<Vertex<T>> veturn = new HashSet();
+      return veturn;
+    }
+    leavesVisited.add(vertex);
+    for(Vertex n : vertex.neighbors){
+      if(!reaching.contains(n)){
+        leavesVisited.add(n);
+        reachable(n);
+      }
+      if(n.neighbors.isEmpty()){
+        leafNodes.add(n);
+      }
+    }
+    return leafNodes;
   }
 
 
