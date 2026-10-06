@@ -129,14 +129,14 @@ public class Practice {
    */
   public Set oddVisited = new HashSet<>();
   public boolean allOdd(Vertex<Integer> vertex) {
+    if(vertex == null) return true;
     for(Vertex n : vertex.neighbors){
-      if(!oddVisited.contains(n)){
-        oddVisited.add(n);
+      if(oddVisited.contains(n)){
         continue;
-      }
+      } else oddVisited.add(n);
       if(allOdd(n) == false) return false;
     }
-    return (vertex.data % 2 != 0);
+    return (vertex.data % 2 == 0);
   }
 
   /**
