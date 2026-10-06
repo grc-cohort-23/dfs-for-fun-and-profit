@@ -140,8 +140,33 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    Set<Vertex<Integer>> seen = new HashSet<>();
+    return oddHelp(vertex, seen);
+  }
+
+  private boolean oddHelp(
+      Vertex<Integer> vertex,
+      Set<Vertex<Integer>> seen
+  ) {
+    if (vertex == null || seen.contains(vertex)) {
+      return true;
+    }
+
+    seen.add(vertex);
+
+    if (vertex.data % 2 == 0) {
+      return false;
+    }
+
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+      if (!oddHelp(neighbor, seen)) {
+        return false;
+      }
+    }
+
     return true;
   }
+  
 
   /**
    * Determines whether there exists a strictly increasing path from the given start vertex
@@ -158,6 +183,25 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+  if (start == null || end == null) {
+      throw new NullPointerException();
+    }
+    Set<Vertex<Integer>> seen = new HashSet<>();
+    return helper(start, end, seen);
+  }
+
+  private boolean helper(Vertex<Integer> current, Vertex<Integer> end, Set<Vertex<Integer>> seen) {
+    if (current == end) {
+      return true;
+    }
+
+    seen.add(current);
+    //if neighbor is greater than current and seen has neighbor return true
+    for (Vertex<Integer> neighbor : current.neighbors) {
+      if (neighbor.data > current.data && !seen.contains(neighbor) && helper(neighbor, end, seen)) {
+        return true;
+      }
+    }
     return false;
   }
 }
