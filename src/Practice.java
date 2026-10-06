@@ -150,7 +150,25 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
-    return true;
+
+    if (vertex == null) return true;
+
+    return allOdd(vertex, new HashSet<Vertex<Integer>>());
+  }
+
+  public boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+
+    if (vertex == null || visited.contains(vertex)) return true;
+
+    visited.add(vertex);
+
+    boolean isOdd = (vertex.data % 2 != 0);
+
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+      isOdd = allOdd(neighbor, visited) && isOdd;
+    }
+
+    return isOdd;
   }
 
   /**
