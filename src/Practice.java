@@ -48,7 +48,7 @@ public class Practice {
       Set<Vertex<T>> veturn = new HashSet();
       return veturn;
     }
-    
+    reaching.add(vertex);
     for(Vertex n : vertex.neighbors){
       if(!reaching.contains(n)){
         reaching.add(n);
