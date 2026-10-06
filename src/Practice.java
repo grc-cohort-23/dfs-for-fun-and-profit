@@ -1,4 +1,6 @@
+import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * A utility class providing various graph traversal methods using DFS.
@@ -18,6 +20,20 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    Set<Vertex<T>> set = new HashSet<>();
+
+    printVertexVals(vertex,set);
+
+  }
+
+  private <T> void printVertexVals(Vertex<T> vertex, Set<Vertex<T>> set){
+    if(vertex == null || set.contains(vertex))return;
+
+    set.add(vertex);
+    System.out.println(vertex.data);
+    for(Vertex<T> neighbor : vertex.neighbors){
+      printVertexVals(neighbor,set);
+    }
   }
 
   /**
@@ -30,7 +46,21 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    if(vertex == null)return new HashSet<>();
+
+    Set<Vertex<T>> set = new HashSet<>();
+
+    reachable(vertex,set);
+
+    return set;
+  }
+
+  private <T> void reachable(Vertex<T> vertex, Set<Vertex<T>> set){
+    if(vertex == null || set.contains(vertex))return;
+    set.add(vertex);
+    for(Vertex<T> neighbor : vertex.neighbors){
+      reachable(neighbor,set);
+    }
   }
 
   /**
@@ -43,7 +73,20 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    Set<Vertex<Integer>> set = new HashSet<>();
+
+    return max(vertex,set);
+  }
+
+  private int max(Vertex<Integer> vertex,Set<Vertex<Integer>> set){
+    if(vertex == null || set.contains(vertex))return Integer.MIN_VALUE;
+    set.add(vertex);
+    
+    int max = vertex.data;
+    for(Vertex<Integer> neighbor : vertex.neighbors){
+      max = Math.max(max, max(neighbor,set));
+    }
+    return max;
   }
 
   /**
@@ -58,7 +101,26 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    if(vertex == null)return new HashSet<>();
+
+    Set<Vertex<T>> set = new HashSet<>();
+    Set<Vertex<T>> leaves = new HashSet<>();
+
+    leaves(vertex,set);
+
+    for(Vertex<T> neighbor : set){
+      if(neighbor.neighbors.size() == 0) leaves.add(neighbor);
+    }
+
+    return leaves;
+  }
+
+  private <T> void leaves(Vertex<T> vertex, Set<Vertex<T>> set){
+    if(vertex == null || set.contains(vertex))return;
+    set.add(vertex);
+    for(Vertex<T> neighbor : vertex.neighbors){
+      leaves(neighbor,set);
+    }
   }
 
 
@@ -73,7 +135,23 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
-    return true;
+    if(vertex == null)return true;
+
+    Set<Vertex<Integer>> set = new HashSet<>();
+
+    return allOdd(vertex,set);
+  }
+
+  private boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> set){
+    if(vertex == null || set.contains(vertex))return true;
+    set.add(vertex);
+    
+    boolean allOdd = vertex.data % 2 != 0;
+
+    for(Vertex<Integer> neighbor : vertex.neighbors){
+      allOdd = allOdd && allOdd(neighbor,set);
+    }
+    return allOdd;
   }
 
   /**
@@ -91,6 +169,25 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    if(start == null || end == null) throw new NullPointerException();
+
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    stack.add(start);
+
+    Set<Vertex<Integer>> set = new HashSet<>();
+
+
+    while(!stack.isEmpty()){
+      Vertex<Integer> current = stack.pop();
+      if(set.contains(current)) continue;
+      if(current == end) return true;
+
+      for(Vertex<Integer> neighbor : current.neighbors){
+        if(neighbor.data > current.data){
+          stack.add(neighbor);
+        }
+      }
+    }
     return false;
   }
 }
