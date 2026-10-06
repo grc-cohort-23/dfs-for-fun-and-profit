@@ -109,7 +109,7 @@ public class Practice {
         leafNodes.add(n);
       }
       if(!reaching.contains(n)){
-        leavesVisited.add(n);
+        reaching.add(n);
         leaves(n);
       }
     }
