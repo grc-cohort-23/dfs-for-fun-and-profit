@@ -114,6 +114,18 @@ public class Practice {
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
      Set<Vertex<T>> leafVerticies = new HashSet<>();
+
+     if(vertex == null){
+      return leafVerticies;
+     }
+     Set<Vertex<T>> vertices = reachable(vertex);
+
+     for(Vertex<T> current : vertices){
+
+      if(current.neighbors.isEmpty()){
+        leafVerticies.add(current);
+      }
+     }
   }
 
 
