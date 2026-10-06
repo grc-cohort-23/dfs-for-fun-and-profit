@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +19,15 @@ public class Practice {
    *
    * @param vertex The starting vertex for the traversal.
    */
+  public List<Vertex> vertices = new LinkedList();
   public <T> void printVertexVals(Vertex<T> vertex) {
+    if(vertex == null) return;
+    for(Vertex vert : vertex.neighbors){{
+      if(!vertices.contains(vert)){
+        printVertexVals(vertex);
+        System.out.println(vert);
+      }
+    }}
   }
 
   /**
