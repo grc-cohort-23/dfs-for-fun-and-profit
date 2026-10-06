@@ -126,6 +126,7 @@ public class Practice {
         leafVerticies.add(current);
       }
      }
+     return leafVerticies;
   }
 
 
