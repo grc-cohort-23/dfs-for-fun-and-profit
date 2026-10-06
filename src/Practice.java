@@ -20,6 +20,10 @@ public class Practice {
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
 
+  Set<Vertex<T>> visited = new HashSet<>();
+
+   helper(vertex,visited);
+
     System.out.println(vertex.data);
 
     for(Vertex<T> neighbor : vertex.neighbors){
@@ -31,6 +35,18 @@ public class Practice {
     if(visited.contains(vertex)){
       return;
     }
+    visited.add(vertex);
+
+    System.out.println(vertex.data);
+
+    //helper method
+    private <T> void helper(Vertex<T> vertex, Set<Vertex<T>> visited) {
+      if(vertex == null){
+        return;
+      }
+   
+    }
+
 
   }
 
