@@ -41,9 +41,6 @@ public class Practice {
 
   
 
-
-
-
   /**
    * Returns a set of all vertices reachable from the given starting vertex,
    * including the starting vertex itself.
@@ -54,7 +51,7 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T> visited = new HashSet<>();
   }
 
   /**
