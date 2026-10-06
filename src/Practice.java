@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,6 +24,12 @@ public class Practice {
 
     for(Vertex<T> neighbor : vertex.neighbors){
       printVertexVals(neighbor);
+    }
+
+    Set<Vertex<T>> visited = new HashSet<>();
+
+    if(visited.contains(vertex)){
+      return;
     }
 
   }
