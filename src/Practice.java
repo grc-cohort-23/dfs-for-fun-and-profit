@@ -18,6 +18,9 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+
+    System.out.println(vertex.data);
+    
   }
 
   /**
