@@ -81,7 +81,6 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-
     
     if (vertex == null) return Integer.MIN_VALUE;
 
@@ -115,7 +114,28 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+
+    if (vertex == null) return new HashSet<Vertex<T>>();
+
+    return leaves(vertex, new HashSet<Vertex<T>>(), new HashSet<Vertex<T>>());
+  }
+
+  public <T> Set<Vertex<T>> leaves(Vertex<T> vertex, Set<Vertex<T>> visited, Set<Vertex<T>> leaves) {
+
+    if (vertex == null || visited.contains(vertex)) return leaves;
+
+    visited.add(vertex);
+
+    if (vertex.neighbors.isEmpty()) {
+      leaves.add(vertex);
+      return leaves;
+    }
+
+    for (Vertex<T> neighbor : vertex.neighbors) {
+      leaves(neighbor, visited, leaves);
+    }
+
+    return leaves;
   }
 
 
