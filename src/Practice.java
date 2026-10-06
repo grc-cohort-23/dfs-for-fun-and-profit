@@ -127,8 +127,13 @@ public class Practice {
    * @param vertex The starting vertex
    * @return true if all reachable vertices hold odd values, false otherwise
    */
+  public Set oddVisited = new HashSet<>();
   public boolean allOdd(Vertex<Integer> vertex) {
     for(Vertex n : vertex.neighbors){
+      if(!oddVisited.contains(n)){
+        oddVisited.add(n);
+        continue;
+      }
       if(allOdd(n) == false) return false;
     }
     return (vertex.data % 2 == 0);
