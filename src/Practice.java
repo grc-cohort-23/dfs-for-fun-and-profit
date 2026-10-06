@@ -67,8 +67,21 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
+  public int val = 0;
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    if(vertex == null){
+      return Integer.MIN_VALUE;
+    }
+    int currentMax = 0;
+    for(Vertex<Integer> n : vertex.neighbors){
+      if(!reaching.contains(n)){
+        Set<Vertex<Integer>> result = reachable(n);
+        for(Vertex<Integer> a : result){
+          currentMax = Math.max(currentMax, a.data);
+        }
+      }
+    }
+    return currentMax;
   }
 
   /**
