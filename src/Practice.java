@@ -145,6 +145,14 @@ public class Practice {
       return true;
     }
     Set<Vertex<Integer>> vertices = reachable(vertex);
+
+    for(Vertex<Integer> current : vertices){
+      if(current.data % 2 == 0){
+        return false;
+      }
+
+    }
+    return true;
   }
 
   /**
