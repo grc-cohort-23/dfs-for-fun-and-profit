@@ -22,10 +22,12 @@ public class Practice {
   public List<Vertex> vertices = new LinkedList();
   public <T> void printVertexVals(Vertex<T> vertex) {
     if(vertex == null) return;
+    System.out.println(vertex.data);
     for(Vertex vert : vertex.neighbors){{
       if(!vertices.contains(vert)){
-        printVertexVals(vertex);
-        System.out.println(vert);
+        vertices.add(vert);
+        System.out.println(vert.data);
+        printVertexVals(vert);
       }
     }}
   }
