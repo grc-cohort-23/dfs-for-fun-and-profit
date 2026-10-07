@@ -1,4 +1,6 @@
+import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * A utility class providing various graph traversal methods using DFS.
@@ -18,6 +20,15 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    Set<Vertex<?>> visited = new HashSet<>();
+    printVertexVals(vertex, visited);
+  }
+
+  private void printVertexVals(Vertex<?> vertex, Set<Vertex<?>> visited) {
+    if (vertex == null || visited.contains(vertex)) return;
+    visited.add(vertex);
+    System.out.println(vertex.data);
+    for (var neighbor : vertex.neighbors) printVertexVals(neighbor, visited);
   }
 
   /**
@@ -30,7 +41,15 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> reachableSet = new HashSet<>();
+    reachable(vertex, reachableSet);
+    return reachableSet;
+  }
+
+  private <T> void reachable(Vertex<T> vertex, Set<Vertex<T>> visited) {
+    if (vertex == null || visited.contains(vertex)) return;
+    visited.add(vertex);
+    for (var neighbor : vertex.neighbors) reachable(neighbor, visited); 
   }
 
   /**
@@ -43,7 +62,17 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return max(vertex,visited);
+  }
+
+  private int max(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+    if (vertex == null || visited.contains(vertex)) return Integer.MIN_VALUE;
+    visited.add(vertex);
+    int largest = vertex.data;
+    for (var neighbor : vertex.neighbors) largest = Math.max(largest,max(neighbor,visited));
+    
+    return largest;
   }
 
   /**
@@ -58,7 +87,20 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    Set<Vertex<T>> leaves = new HashSet<>(); 
+    Set<Vertex<T>> visited = new HashSet<>();
+    if (vertex == null) return leaves;
+    Stack<Vertex<T>> stack = new Stack<>();
+
+    stack.add(vertex);
+    while (!stack.isEmpty()) {
+      Vertex<T> current = stack.pop();
+      visited.add(current);
+      if (current.neighbors.isEmpty()) leaves.add(current);
+      else for (var v : current.neighbors) if (!visited.contains(v)) stack.add(v);
+    }
+
+    return leaves;
   }
 
 
@@ -73,6 +115,18 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    stack.add(vertex);
+
+    while (!stack.isEmpty()) {
+      Vertex<Integer> current = stack.pop();
+      visited.add(current);
+      // If the current node is even
+      if (current.data % 2 == 0) return false;
+      for (var v : current.neighbors) if (!visited.contains(v)) stack.add(v);
+    }
+
     return true;
   }
 
@@ -91,6 +145,19 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
+    if (start == null || end == null) throw new NullPointerException("Start and End cannot be null.");
+    Stack<Vertex<Integer>> stack = new Stack<>();
+    // Interestingly, doesn't need a visited set.
+    stack.add(start);
+
+    while (!stack.isEmpty()) {
+      Vertex<Integer> current = stack.pop();
+      // If this is the target vertex, then that means there is a strictly increasing path
+      if (current == end) return true;
+      // Add all the neighbors that are larger than the current node; traverse only the strictly increasing vertexes.
+      for (var v : current.neighbors) if (v.data > current.data) stack.add(v);
+    }
+
     return false;
   }
 }
