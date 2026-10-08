@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,6 +19,21 @@ public class Practice {
    * @param vertex The starting vertex for the traversal.
    */
   public <T> void printVertexVals(Vertex<T> vertex) {
+    if (vertex == null) return;
+    Set<Vertex<T>> visited = new HashSet<>();
+    printVertexVals(vertex, visited);
+  }
+
+  public <T> void printVertexVals(Vertex<T> vertex , Set<Vertex<T>> visited){
+    if(visited.contains(vertex)) return;
+    visited.add(vertex);
+    System.out.println(vertex.data);
+
+    
+    for(Vertex<T> eachVertex : vertex.neighbors){
+        printVertexVals(eachVertex, visited);
+  }
+
   }
 
   /**
@@ -30,8 +46,25 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    if (vertex == null) return new HashSet<>();
+    Set<Vertex<T>> visited = new HashSet<>(); 
+    reachable(vertex, visited);
+
+    return visited;
+
   }
+  public <T> void reachable(Vertex<T> vertex, Set<Vertex<T>> visited) {
+
+    if(visited.contains(vertex)) return;
+    visited.add(vertex);
+
+    for(Vertex<T> eachVertex : vertex.neighbors){
+      reachable(eachVertex, visited);
+    }
+
+  }
+
+
 
   /**
    * Returns the maximum value among all vertices reachable from the given starting vertex,
@@ -43,7 +76,29 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    if (vertex == null) return  Integer.MIN_VALUE;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    int maxValue = Integer.MIN_VALUE;
+
+    maxValue =max(vertex, visited, maxValue);
+
+    return maxValue;
+  }
+  public int max(Vertex<Integer> vertex, Set<Vertex<Integer>> visited , int maxValue){
+    if (visited.contains(vertex)) return maxValue ;
+    visited.add(vertex);
+
+    if (maxValue < vertex.data){
+      maxValue = vertex.data;
+    }
+
+    for (Vertex<Integer> eachVertex : vertex.neighbors) {
+        int maxNeighbor= max(eachVertex, visited, maxValue);
+        if(maxValue< maxNeighbor){
+          maxValue = maxNeighbor;
+        }
+    }
+    return maxValue;
   }
 
   /**
@@ -58,7 +113,25 @@ public class Practice {
    * @return A set containing all reachable leaf vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> leaves(Vertex<T> vertex) {
-    return null;
+    if(vertex == null) {
+      return new HashSet<>();}
+    Set<Vertex<T>> visited = new HashSet<>();
+    Set<Vertex<T>> leave = new HashSet<>();
+    leaves(vertex, visited, leave);
+
+    return leave;
+  }
+  public <T> void leaves(Vertex<T> vertxe,Set<Vertex<T>> visited, Set<Vertex<T>> leave) {
+    if(visited.contains(vertxe)) return;
+      visited.add(vertxe);
+
+    
+    if (vertxe.neighbors.isEmpty()){
+      leave.add(vertxe);
+    }
+    for (Vertex<T> eachVertex : vertxe.neighbors){
+        leaves(eachVertex, visited ,leave);
+    }
   }
 
 
@@ -73,6 +146,24 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
+    if(vertex == null ) return true;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+
+    return allOdd(vertex, visited);
+  }
+  public boolean allOdd(Vertex<Integer> vertex , Set<Vertex<Integer>> visited){
+    if (visited.contains(vertex)) return true;
+    visited.add(vertex);
+
+    if(vertex.data % 2 == 0){
+      return false;
+    }
+
+    for(Vertex<Integer> eacVertex : vertex.neighbors){
+      if (!allOdd(eacVertex , visited)){
+        return false;
+      }
+    }
     return true;
   }
 
@@ -91,6 +182,30 @@ public class Practice {
    * @throws NullPointerException if either start or end is null.
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
-    return false;
+        if (start == null || end == null) {
+        throw new NullPointerException();
+    }
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+
+    return hasStrictlyIncreasingPath(start, end, visited);
   }
+  public boolean hasStrictlyIncreasingPath(Vertex<Integer> vertex, Vertex<Integer> end, Set<Vertex<Integer>> visited) {
+
+    if (visited.contains(vertex)) return false;
+    visited.add(vertex);
+
+    if (vertex == end) {
+        return true;
+    }
+
+    for (Vertex<Integer> eachVertex : vertex.neighbors) {
+        if (eachVertex.data > vertex.data) {
+            if (hasStrictlyIncreasingPath(eachVertex, end, visited)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 }
